@@ -1,5 +1,5 @@
 --no-private
 --markup markdown
 --hide-void-return
---files CHANGELOG.md
+--files CHANGELOG.md,sample_configuration.ini
 --readme README.md

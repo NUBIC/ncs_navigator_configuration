@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency 'ncs_mdes', '~> 0.4'
+  s.add_dependency 'inifile', '~> 0.4.1'
 
   s.add_development_dependency 'rake', '~> 0.9.2'
   s.add_development_dependency 'rspec', '~> 2.6'
