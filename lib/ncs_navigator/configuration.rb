@@ -68,6 +68,8 @@ module NcsNavigator
       #   configuration will fail if it is not provided or is blank.
       # @option options [Object] :default the default value for the
       #   configuration property.
+      #
+      # @return [void]
       def configuration_attribute(name, section, key, type, options={})
         configuration_attributes << ConfigurationAttribute.new(name, section, key, type, options)
         attr_accessor name
@@ -146,6 +148,8 @@ module NcsNavigator
     #   @return [$4]
     configuration_attribute :study_center_id, 'Study Center', 'sc_id', String,
       :required => true
+
+    alias :sc_id :study_center_id
 
     ##
     # The name for the institutional identity used in this deployment
@@ -285,7 +289,7 @@ module NcsNavigator
     private :stringify_keys
 
     ##
-    # @return [Array<SampleUnitArea>] the areas defined in {#sampling_units_file}.
+    # @return [Array<SamplingUnitArea>] the areas defined in {#sampling_units_file}.
     def sampling_unit_areas
       @sampling_unit_areas ||= read_sampling_unit_areas
     end
@@ -314,14 +318,14 @@ module NcsNavigator
     private :read_sampling_unit_areas
 
     ##
-    # @return [Array<SampleUnitArea>] the PSUs defined in {#sampling_units_file}.
+    # @return [Array<PrimarySamplingUnit>] the PSUs defined in {#sampling_units_file}.
     def primary_sampling_units
       @primary_sampling_units ||= sampling_unit_areas.collect(&:primary_sampling_unit).uniq
     end
     alias :psus :primary_sampling_units
 
     ##
-    # @return [Array<SampleUnitArea>] the SSUs defined in {#sampling_units_file}.
+    # @return [Array<SecondarySamplingUnit>] the SSUs defined in {#sampling_units_file}.
     def secondary_sampling_units
       @secondary_sampling_units ||= sampling_unit_areas.collect(&:secondary_sampling_units).flatten
     end

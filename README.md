@@ -26,8 +26,15 @@ Configuration
 -------------
 
 An instance of {NcsNavigator::Configuration} may be initialized from
-an INI file, by passing a Hash to its constructor, or by setting
-attributes directly. The INI file should match
-{file:sample_configuration.ini} available alongside this file. The
-Hash should have two levels, the top level matching the INI file's
-sections and the second level the keys.
+an INI file or by passing a Hash to its constructor.  The INI file
+should match {file:sample_configuration.ini} available alongside this
+file. The Hash should have two levels, the top level matching the INI
+file's sections and the second level the keys.
+
+In addition to the typed configuration properties available on
+`NcsNavigator::Configuration`, there are also three
+application-specific accessors: {#staff_portal, #core, and
+#psc}. These provide untyped direct access to the configuration
+properties in the respective sections of the INI file, allowing
+applications to define their own additional configuration properties
+without modifying this library.
