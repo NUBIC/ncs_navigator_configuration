@@ -11,8 +11,8 @@ Use
 {NcsNavigator::Configuration} defines the common configuration
 attributes for applications in the NCS Navigator suite. It also
 provides helpers (e.g.,
-{NcsNavigator::Configuration#configure_actionmailer!} for applying the
-configuration to some utility libraries.
+{NcsNavigator::Configuration#action_mailer_smtp_settings} for applying
+the configuration to some utility libraries.
 
 {NcsNavigator.configuration} provides a global access point for an
 instance of `NcsNavigator::Configuration`. It is initialized from a

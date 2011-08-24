@@ -74,17 +74,27 @@ module NcsNavigator
           case
           when type == String
             raw_value.to_s
+          when type == Symbol
+            raw_value.to_sym
+          when type == Fixnum
+            raw_value.to_i
           when type == Pathname
-            base = Pathname.new(raw_value.to_s)
-            if base.absolute? || !config.ini_filename
-              base
-            else
-              config.ini_filename.dirname + base
-            end
+            coerce_to_pathname(raw_value, config)
           when type == URI
             URI.parse(raw_value.to_s)
+          when type == 'Boolean'
+            raw_value.to_s.downcase.strip == 'true' ? true : false
           else
             fail "Do not know how to coerce to #{type} for #{name} from [#{section}]: #{key}"
+          end
+        end
+
+        def coerce_to_pathname(raw_value, config)
+          base = Pathname.new(raw_value.to_s)
+          if base.absolute? || !config.ini_filename
+            base
+          else
+            config.ini_filename.dirname + base
           end
         end
       end
@@ -157,6 +167,38 @@ module NcsNavigator
     # The root URI for the PSC deployment in this instance of
     # the suite.
     configuration_attribute :psc_uri, 'PSC', 'uri', URI, :required => true
+
+    ##
+    # The hostname of the SMTP server the suite should use to send
+    # mail.
+    configuration_attribute :smtp_host, 'SMTP', 'host', String, :default => 'localhost'
+
+    ##
+    # The port for the SMTP server the suite should use.
+    configuration_attribute :smtp_port, 'SMTP', 'port', Fixnum, :default => 25
+
+    ##
+    # The the HELO domain for the SMTP server, if any.
+    configuration_attribute :smtp_helo_domain, 'SMTP', 'domain', String
+
+    ##
+    # The type of authentication needed for the SMTP server, if any.
+    configuration_attribute :smtp_authentication_method, 'SMTP', 'authentication', Symbol
+
+    ##
+    # The username to use when authenticating to the SMTP server, if
+    # authentication is required.
+    configuration_attribute :smtp_username, 'SMTP', 'username', String
+
+    ##
+    # The password to use when authenticating to the SMTP server, if
+    # authentication is required.
+    configuration_attribute :smtp_password, 'SMTP', 'password', String
+
+    ##
+    # Whether to try to use STARTTLS if the SMTP server supports
+    # it. Defaults to false.
+    configuration_attribute :smtp_starttls, 'SMTP', 'starttls', 'Boolean', :default => false
 
     ##
     # Creates a new Configuration.
@@ -281,6 +323,25 @@ module NcsNavigator
       define_method section.downcase.gsub(' ', '_').to_sym do
         @application_sections[section] ||= {}
       end
+    end
+
+    ##
+    # Provides a configuration hash suitable for passing to
+    # `ActionMailer::Base.smtp_settings`.
+    #
+    # @return [Hash<Symbol, Object>]
+    def action_mailer_smtp_settings
+      Hash[
+        {
+          :address => smtp_host,
+          :port => smtp_port,
+          :domain => smtp_helo_domain,
+          :user_name => smtp_username,
+          :password => smtp_password,
+          :authentication => smtp_authentication_method,
+          :enable_starttls_auto => smtp_starttls
+        }.select { |k, v| v }
+      ]
     end
 
     class Error < StandardError; end

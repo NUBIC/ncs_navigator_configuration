@@ -313,5 +313,129 @@ module NcsNavigator
         end
       end
     end
+
+    describe 'SMTP' do
+      describe '#smtp_host' do
+        it 'defaults to "localhost"' do
+          from_hash.smtp_host.should == 'localhost'
+        end
+
+        it 'takes the configured value' do
+          everything.smtp_host.should == 'smtp.greaterchicagoncs.org'
+        end
+      end
+
+      describe '#smtp_port' do
+        it 'defaults to 25' do
+          from_hash.smtp_port.should == 25
+        end
+
+        it 'takes the configured value' do
+          everything.smtp_port.should == 2025
+        end
+      end
+
+      describe '#smtp_helo_domain' do
+        it 'defaults to nil' do
+          from_hash.smtp_helo_domain.should be_nil
+        end
+
+        it 'takes the configured value' do
+          everything.smtp_helo_domain.should == 'greaterchicagoncs.org'
+        end
+      end
+
+      describe '#smtp_authentication_method' do
+        it 'defaults to nil' do
+          from_hash.smtp_authentication_method.should be_nil
+        end
+
+        it 'takes the configured value (as a symbol)' do
+          everything.smtp_authentication_method.should == :plain
+        end
+      end
+
+      describe '#smtp_username' do
+        it 'defaults to nil' do
+          from_hash.smtp_username.should be_nil
+        end
+
+        it 'takes the configured value' do
+          everything.smtp_username.should == 'mailman'
+        end
+      end
+
+      describe '#smtp_password' do
+        it 'defaults to nil' do
+          from_hash.smtp_password.should be_nil
+        end
+
+        it 'takes the configured value' do
+          everything.smtp_password.should == 'tiger'
+        end
+      end
+
+      describe '#starttls' do
+        it 'defaults to false' do
+          from_hash.smtp_starttls.should == false
+        end
+
+        it 'takes the configured value' do
+          everything.smtp_starttls.should == true
+        end
+      end
+
+      describe '#action_mailer_smtp_settings' do
+        context 'with everything' do
+          subject { everything.action_mailer_smtp_settings }
+
+          it 'has :address' do
+            subject[:address].should == 'smtp.greaterchicagoncs.org'
+          end
+
+          it 'has :port' do
+            subject[:port].should == 2025
+          end
+
+          it 'has :domain' do
+            subject[:domain].should == 'greaterchicagoncs.org'
+          end
+
+          it 'has :authentication' do
+            subject[:authentication].should == :plain
+          end
+
+          it 'has :user_name' do
+            subject[:user_name].should == 'mailman'
+          end
+
+          it 'has :password' do
+            subject[:password].should == 'tiger'
+          end
+
+          it 'has :enable_starttls_auto' do
+            subject[:enable_starttls_auto].should == true
+          end
+        end
+
+        context 'with defaults' do
+          subject { from_hash.action_mailer_smtp_settings }
+
+          it 'has :address' do
+            subject[:address].should == 'localhost'
+          end
+
+          it 'has :port' do
+            subject[:port].should == 25
+          end
+
+          [:domain, :authentication, :user_name, :password, :enable_starttls_auto].each do |nil_key|
+            it "does not have #{nil_key}" do
+              subject.should_not have_key(nil_key)
+            end
+          end
+        end
+      end
+    end
   end
 end
