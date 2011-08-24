@@ -15,11 +15,12 @@ provides helpers (e.g.,
 the configuration to some utility libraries.
 
 {NcsNavigator.configuration} provides a global access point for an
-instance of `NcsNavigator::Configuration`. It is initialized from a
-configuration file named `/etc/nubic/ncs/navigator.ini` (see next section) on
-first access and memoized. If the INI file is changed, you'll need to
-call {NcsNavigator.reload_configuration} to have the changes reflected
-in the global instance.
+instance of `NcsNavigator::Configuration`. It can be explicitly set,
+but more commonly it is initialized from a configuration file named
+`/etc/nubic/ncs/navigator.ini` (see next section) on first access. If
+the INI file is changed, you'll need to set
+`NcsNavigator.configuration` to `nil` to have the changes reflected in
+the global instance.
 
 Configuration
 -------------

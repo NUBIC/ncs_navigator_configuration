@@ -9,6 +9,34 @@ module NcsNavigator
   # no single gem which defines the NcsNavigator module, so no gem
   # should respond when `require`ing 'ncs_navigator'.
 
+  ##
+  # The location from which the global configuration instance is read
+  # if a global instance is not explicitly set.
+  DEFAULT_CONFIGURATION_PATH = '/etc/nubic/ncs/navigator.ini'
+
+  ##
+  # The global configuration instance. Automatically instantiated on
+  # first reference from {.DEFAULT_CONFIGURATION_PATH} if it is not
+  # set explicitly.
+  #
+  # @return [Configuration]
+  def self.configuration
+    @configuration ||= Configuration.new(DEFAULT_CONFIGURATION_PATH)
+  end
+
+  ##
+  # Replaces the global configuration with a provided instance.
+  # Set to `nil` to reload from {.DEFAULT_CONFIGURATION_PATH}.
+  #
+  # @param [Configuration,nil] config the new configuration
+  # @return [void]
+  def self.configuration=(config)
+    @configuration = config
+  end
+
+  ##
+  # The typed access point for the common configuration in the NCS
+  # Navigator suite.
   class Configuration
     autoload :VERSION, 'ncs_navigator/configuration/version'
 

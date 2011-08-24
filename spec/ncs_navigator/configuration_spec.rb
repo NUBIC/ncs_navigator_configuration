@@ -1,6 +1,42 @@
 require File.expand_path('../../spec_helper', __FILE__)
 
 describe NcsNavigator do
+  # Load the test INI into memory so it can be put into FakeFS
+  let(:everything_file) { File.expand_path('../everything.ini', __FILE__) }
+  let!(:everything_contents) { File.read(everything_file) }
+
+  after do
+    NcsNavigator.configuration = nil
+  end
+
+  describe '.configuration' do
+    include FakeFS::SpecHelpers
+
+    before do
+      File.open('/etc/nubic/ncs/navigator.ini', 'w') do |f|
+        f.puts '[Study Center]'
+        f.puts 'sc_id = 18'
+        f.puts 'sampling_units_file = foo.csv'
+        f.puts '[Staff Portal]'
+        f.puts 'uri = https://foo.example.com/sp'
+        f.puts '[Core]'
+        f.puts 'uri = https://foo.example.com/core'
+        f.puts '[PSC]'
+        f.puts 'uri = https://foo.example.com/psc'
+      end
+
+      File.open(everything_file, 'w') { |f| f.write everything_contents }
+    end
+
+    it 'is read from /etc/nubic/ncs/navigator.ini' do
+      NcsNavigator.configuration.study_center_id.should == '18'
+    end
+
+    it 'can be set explicitly' do
+      NcsNavigator.configuration = NcsNavigator::Configuration.new(everything_file)
+      NcsNavigator.configuration.study_center_id.should == '20000000'
+    end
+  end
 end
 
 module NcsNavigator
