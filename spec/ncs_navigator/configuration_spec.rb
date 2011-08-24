@@ -202,5 +202,47 @@ module NcsNavigator
         end
       end
     end
+
+    describe 'footer' do
+      describe '#footer_logo_left' do
+        subject { everything.footer_logo_left }
+
+        it 'is the correct value' do
+          subject.to_s.should == "/etc/nubic/ncs/logos/sc_20000000L.png"
+        end
+      end
+
+      describe '#footer_logo_right' do
+        subject { everything.footer_logo_right }
+
+        it 'is the correct value' do
+          subject.to_s.should == "/etc/nubic/ncs/logos/sc_20000000R.png"
+        end
+      end
+
+      describe '#footer_text' do
+        subject { everything.footer_text }
+
+        it 'is the configured value' do
+          subject.should =~ /Greater Chicago Study Center/
+        end
+
+        it 'preserves newlines' do
+          subject.split(/\n/).size.should == 5
+        end
+      end
+
+      describe '#footer_center_html' do
+        subject { everything.footer_center_html }
+
+        it 'converts newlines to BRs' do
+          subject.split("\n")[3].should == "420 East Superior, 10th Floor<br>"
+        end
+
+        it 'is nil if no footer text' do
+          from_hash.footer_center_html.should be_nil
+        end
+      end
+    end
   end
 end

@@ -121,6 +121,24 @@ module NcsNavigator
       :required => true
 
     ##
+    # The image that should appear on the left side of the footer in
+    # Staff Portal and Core. This should be a path to a file on the
+    # deployed server.
+    configuration_attribute :footer_logo_left, 'Study Center', 'footer_logo_left', Pathname
+
+    ##
+    # The image that should appear on the right side of the footer in
+    # Staff Portal and Core. This should be a path to a file on the
+    # deployed server.
+    configuration_attribute :footer_logo_right, 'Study Center', 'footer_logo_right', Pathname
+
+    ##
+    # The text that should appear in the center of the footer in Staff
+    # Portal and Core. This is usually the center's contact
+    # information.
+    configuration_attribute :footer_text, 'Study Center', 'footer_text', String
+
+    ##
     # Creates a new Configuration.
     #
     # @param [String, Hash] source the basis for this
@@ -171,6 +189,8 @@ module NcsNavigator
     end
     private :stringify_keys
 
+    ##
+    # @return [Array<SampleUnitArea>] the areas defined in {#sampling_units_file}.
     def sampling_unit_areas
       @sampling_unit_areas ||= read_sampling_unit_areas
     end
@@ -198,15 +218,33 @@ module NcsNavigator
     end
     private :read_sampling_unit_areas
 
+    ##
+    # @return [Array<SampleUnitArea>] the PSUs defined in {#sampling_units_file}.
     def primary_sampling_units
       @primary_sampling_units ||= sampling_unit_areas.collect(&:primary_sampling_unit).uniq
     end
     alias :psus :primary_sampling_units
 
+    ##
+    # @return [Array<SampleUnitArea>] the SSUs defined in {#sampling_units_file}.
     def secondary_sampling_units
       @secondary_sampling_units ||= sampling_unit_areas.collect(&:secondary_sampling_units).flatten
     end
     alias :ssus :secondary_sampling_units
+
+    ##
+    # Converts {#footer_text} into equivalent HTML.
+    #
+    # @return [String]
+    def footer_center_html
+      return nil unless footer_text
+      html = footer_text.split("\n").join("<br>\n")
+      if html.respond_to?(:html_safe)
+        html.html_safe
+      else
+        html
+      end
+    end
 
     class Error < StandardError; end
   end
