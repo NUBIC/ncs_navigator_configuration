@@ -14,6 +14,15 @@ module NcsNavigator
         'Study Center' => {
           'sc_id' => '23000000',
           'sampling_units_file' => 'foo.csv'
+        },
+        'Staff Portal' => {
+          'uri' => 'https://sp.example.edu/'
+        },
+        'Core' => {
+          'uri' => 'https://ncsn.example.edu/'
+        },
+        'PSC' => {
+          'uri' => 'https://psc.example.edu/'
         }
       }
     }
@@ -241,6 +250,66 @@ module NcsNavigator
 
         it 'is nil if no footer text' do
           from_hash.footer_center_html.should be_nil
+        end
+      end
+    end
+
+    describe 'Staff Portal parts' do
+      describe '#staff_portal_uri' do
+        subject { everything.staff_portal_uri }
+
+        it 'is the configured value' do
+          subject.to_s.should == 'https://staffportal.greaterchicagoncs.org/'
+        end
+
+        it 'can expose the hostname, e.g.' do
+          subject.host.should == 'staffportal.greaterchicagoncs.org'
+        end
+      end
+
+      describe '#staff_portal' do
+        it 'exposes all the raw values in the Staff Portal section' do
+          everything.staff_portal['mail_from'].should == "staffportal@greaterchicagoncs.org"
+        end
+      end
+    end
+
+    describe 'Core parts' do
+      describe '#core_uri' do
+        subject { everything.core_uri }
+
+        it 'is the configured value' do
+          subject.to_s.should == 'https://ncsnavigator.greaterchicagoncs.org/'
+        end
+
+        it 'can expose the hostname, e.g.' do
+          subject.host.should == 'ncsnavigator.greaterchicagoncs.org'
+        end
+      end
+
+      describe '#core' do
+        it 'exposes all the raw values in the Staff Portal section' do
+          everything.core['uri'].should == "https://ncsnavigator.greaterchicagoncs.org/"
+        end
+      end
+    end
+
+    describe 'PSC parts' do
+      describe '#psc_uri' do
+        subject { everything.psc_uri }
+
+        it 'is the configured value' do
+          subject.to_s.should == 'https://calendar.greaterchicagoncs.org/'
+        end
+
+        it 'can expose the hostname, e.g.' do
+          subject.host.should == 'calendar.greaterchicagoncs.org'
+        end
+      end
+
+      describe '#psc' do
+        it 'exposes all the raw values in the PSC section' do
+          everything.psc['uri'].should == "https://calendar.greaterchicagoncs.org/"
         end
       end
     end

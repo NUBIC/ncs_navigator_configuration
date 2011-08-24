@@ -1,6 +1,7 @@
 require 'inifile'
 require 'pathname'
 require 'fastercsv'
+require 'uri'
 
 module NcsNavigator
   # Additions to the root module are defined here instead of in
@@ -17,6 +18,8 @@ module NcsNavigator
     autoload :SamplingUnitArea,      'ncs_navigator/configuration/sampling_units'
 
     ######
+
+    APPLICATION_SECTIONS = ['Staff Portal', 'Core', 'PSC']
 
     class << self
       ##
@@ -78,6 +81,8 @@ module NcsNavigator
             else
               config.ini_filename.dirname + base
             end
+          when type == URI
+            URI.parse(raw_value.to_s)
           else
             fail "Do not know how to coerce to #{type} for #{name} from [#{section}]: #{key}"
           end
@@ -139,6 +144,21 @@ module NcsNavigator
     configuration_attribute :footer_text, 'Study Center', 'footer_text', String
 
     ##
+    # The root URI for the Staff Portal deployment in this instance of
+    # the suite.
+    configuration_attribute :staff_portal_uri, 'Staff Portal', 'uri', URI, :required => true
+
+    ##
+    # The root URI for the NCS Navigator Core deployment in this instance of
+    # the suite.
+    configuration_attribute :core_uri, 'Core', 'uri', URI, :required => true
+
+    ##
+    # The root URI for the PSC deployment in this instance of
+    # the suite.
+    configuration_attribute :psc_uri, 'PSC', 'uri', URI, :required => true
+
+    ##
     # Creates a new Configuration.
     #
     # @param [String, Hash] source the basis for this
@@ -167,8 +187,13 @@ module NcsNavigator
     private :init_from_ini
 
     def init_from_hash(h)
+      h = stringify_keys(h)
       self.class.configuration_attributes.each do |attr|
-        attr.extract_and_set(self, stringify_keys(h))
+        attr.extract_and_set(self, h)
+      end
+      @application_sections = APPLICATION_SECTIONS.inject({}) do |s, section|
+        s[section] = h[section].dup if h[section]
+        s
       end
     end
     private :init_from_hash
@@ -243,6 +268,18 @@ module NcsNavigator
         html.html_safe
       else
         html
+      end
+    end
+
+    APPLICATION_SECTIONS.each do |section|
+      ##
+      # Exposes all the values from the [#{section}] section. This
+      # allows for flexibility in adding new options, with the downside
+      # that they are not automatically coerced or documented.
+      #
+      # @return [Hash<String, String>]
+      define_method section.downcase.gsub(' ', '_').to_sym do
+        @application_sections[section] ||= {}
       end
     end
 
