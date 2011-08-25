@@ -33,8 +33,10 @@ file's sections and the second level the keys.
 
 In addition to the typed configuration properties available on
 `NcsNavigator::Configuration`, there are also three
-application-specific accessors: {#staff_portal, #core, and
-#psc}. These provide untyped direct access to the configuration
-properties in the respective sections of the INI file, allowing
-applications to define their own additional configuration properties
-without modifying this library.
+application-specific accessors:
+{NcsNavigator::Configuration#staff_portal #staff_portal},
+{NcsNavigator::Configuration#core #core}, and
+{NcsNavigator::Configuration#psc #psc}. These provide untyped direct
+access to the configuration properties in the respective sections of
+the INI file, allowing applications to define their own additional
+configuration properties without modifying this library.

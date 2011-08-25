@@ -76,6 +76,21 @@ module NcsNavigator
       end
 
       ##
+      # Defines an attribute that exposes the raw contents of a
+      # section.
+      #
+      # @param [#to_s] section_name the name of the section in the INI
+      #   file.
+      # @param [#to_sym] accessor_name the name for the generated accessor.
+      #
+      # @return [void]
+      def section_accessor(section_name, accessor_name)
+        define_method accessor_name.to_sym do
+          @application_sections[section_name.to_s] ||= {}
+        end
+      end
+
+      ##
       # @private used by instances, but not intended to be public.
       def configuration_attributes
         @configuration_attributes ||= []
@@ -232,6 +247,23 @@ module NcsNavigator
     # it. Defaults to false.
     configuration_attribute :smtp_starttls, 'SMTP', 'starttls', 'Boolean', :default => false
 
+    # While the following could be generated metaprogrammatically
+    # using APPLICATION_SECTIONS, they are unrolled for the benefit of
+    # YARD.
+
+    ##
+    # @macro [attach] section_accessor
+    # @method $2
+    #
+    # Exposes all the values from the [$1] section. This allows for
+    # flexibility in adding new options. The downside is that they are
+    # not automatically coerced or documented.
+    #
+    # @return [Hash<String, String>] the raw values from the [$1] section
+    section_accessor 'Staff Portal', :staff_portal
+    section_accessor 'Core', :core
+    section_accessor 'PSC', :psc
+
     ##
     # Creates a new Configuration.
     #
@@ -346,15 +378,6 @@ module NcsNavigator
     end
 
     APPLICATION_SECTIONS.each do |section|
-      ##
-      # Exposes all the values from the [#{section}] section. This
-      # allows for flexibility in adding new options, with the downside
-      # that they are not automatically coerced or documented.
-      #
-      # @return [Hash<String, String>]
-      define_method section.downcase.gsub(' ', '_').to_sym do
-        @application_sections[section] ||= {}
-      end
     end
 
     ##
