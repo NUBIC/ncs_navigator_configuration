@@ -376,9 +376,6 @@ module NcsNavigator
       end
     end
 
-    APPLICATION_SECTIONS.each do |section|
-    end
-
     ##
     # Provides a configuration hash suitable for passing to
     # `ActionMailer::Base.smtp_settings`.
