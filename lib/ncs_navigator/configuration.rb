@@ -1,6 +1,5 @@
 require 'inifile'
 require 'pathname'
-require 'fastercsv'
 require 'uri'
 
 module NcsNavigator
@@ -336,7 +335,7 @@ module NcsNavigator
         raise Error.new("Could not read sampling units CSV #{sampling_units_file}")
       end
 
-      FasterCSV.foreach(sampling_units_file, :headers => true) do |row|
+      faster_csv_class.foreach(sampling_units_file, :headers => true) do |row|
         psu = (psus[row['PSU_ID']] ||= PrimarySamplingUnit.new(row['PSU_ID']))
         area = (areas[row['AREA']] ||= SamplingUnitArea.new(row['AREA'], psu))
         ssu = (ssus[row['SSU_ID']] ||= SecondarySamplingUnit.new(row['SSU_ID'], row['SSU_NAME'], area))
@@ -398,6 +397,21 @@ module NcsNavigator
         }.select { |k, v| v }
       ]
     end
+
+    ##
+    # @return [Class] the main class for FasterCSV-like behavior. On
+    #   1.9+, this is the built-in CSV lib.
+    def faster_csv_class
+      @faster_csv_class ||=
+        if RUBY_VERSION < '1.9'
+          require 'fastercsv'
+          FasterCSV
+        else
+          require 'csv'
+          CSV
+        end
+    end
+    private :faster_csv_class
 
     class Error < StandardError; end
   end
