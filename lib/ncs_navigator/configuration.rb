@@ -284,7 +284,7 @@ module NcsNavigator
     def init_from_ini(filename)
       if File.readable?(filename)
         @ini_filename = Pathname.new(filename)
-        init_from_hash(IniFile.new(filename).to_h)
+        init_from_hash(IniFile.new(filename, :encoding => 'UTF-8').to_h)
       else
         raise Error.new("NCS Navigator configuration file #{filename.inspect} does not exist or is not readable.")
       end
@@ -335,7 +335,7 @@ module NcsNavigator
         raise Error.new("Could not read sampling units CSV #{sampling_units_file}")
       end
 
-      faster_csv_class.foreach(sampling_units_file, :headers => true) do |row|
+      faster_csv_class.foreach(sampling_units_file, :headers => true, :encoding => 'utf-8') do |row|
         psu = (psus[row['PSU_ID']] ||= PrimarySamplingUnit.new(row['PSU_ID']))
         area = (areas[row['AREA']] ||= SamplingUnitArea.new(row['AREA'], psu))
         ssu = (ssus[row['SSU_ID']] ||= SecondarySamplingUnit.new(row['SSU_ID'], row['SSU_NAME'], area))

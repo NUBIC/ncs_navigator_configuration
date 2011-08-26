@@ -1,9 +1,13 @@
+# -*- coding: utf-8 -*-
 require File.expand_path('../../spec_helper', __FILE__)
 
 describe NcsNavigator do
   # Load the test INI into memory so it can be put into FakeFS
   let(:everything_file) { File.expand_path('../everything.ini', __FILE__) }
-  let!(:everything_contents) { File.read(everything_file) }
+  let!(:everything_contents) {
+    opts = ({ :external_encoding => 'UTF-8' } if RUBY_VERSION > '1.9')
+    File.read(everything_file, opts)
+  }
 
   after do
     NcsNavigator.configuration = nil
@@ -13,6 +17,8 @@ describe NcsNavigator do
     include FakeFS::SpecHelpers
 
     before do
+      pending "FakeFS issue #93" if RUBY_VERSION > '1.9'
+
       File.open('/etc/nubic/ncs/navigator.ini', 'w') do |f|
         f.puts '[Study Center]'
         f.puts 'sc_id = 18'
@@ -25,7 +31,9 @@ describe NcsNavigator do
         f.puts 'uri = https://foo.example.com/psc'
       end
 
-      File.open(everything_file, 'w') { |f| f.write everything_contents }
+      File.open(everything_file, RUBY_VERSION > '1.9' ? 'w:UTF-8' : 'w') { |f|
+        f.write everything_contents
+      }
     end
 
     it 'is read from /etc/nubic/ncs/navigator.ini' do
@@ -274,6 +282,12 @@ module NcsNavigator
 
         it 'preserves newlines' do
           subject.split(/\n/).size.should == 5
+        end
+
+        if RUBY_VERSION > '1.9'
+          it 'can contain non-ASCII characters' do
+            subject.should =~ /’/
+          end
         end
       end
 
