@@ -166,6 +166,13 @@ module NcsNavigator
     alias :sc_id :study_center_id
 
     ##
+    # The recruitment strategy for this study center. The acceptable
+    # values are those from the code list `recruit_type_cl1` in the
+    # MDES.
+    configuration_attribute :recruitment_type_id, 'Study Center', 'recruitment_type_id', String,
+      :required => true
+
+    ##
     # The name for the institutional identity used in this deployment
     # of NCS Navigator. For instance, for the Greater Chicago Study
     # Center, it is "Northwestern NetID". The default is "Username".

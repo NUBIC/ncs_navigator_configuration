@@ -57,6 +57,7 @@ module NcsNavigator
       {
         'Study Center' => {
           'sc_id' => '23000000',
+          'recruitment_type_id' => '3',
           'sampling_units_file' => 'foo.csv'
         },
         'Staff Portal' => {
@@ -109,6 +110,23 @@ module NcsNavigator
         input_hash['Study Center'].delete 'sc_id'
         lambda { from_hash }.
           should raise_error("Please set a value for [Study Center]: sc_id")
+      end
+    end
+
+    describe '#recruitment_type_id' do
+      it 'reflects the configured value' do
+        from_hash.recruitment_type_id.should == '3'
+      end
+
+      it 'is always a string' do
+        input_hash['Study Center']['recruitment_type_id'] = 234
+        from_hash.recruitment_type_id.should == '234'
+      end
+
+      it 'is mandatory' do
+        input_hash['Study Center'].delete 'recruitment_type_id'
+        lambda { from_hash }.
+          should raise_error("Please set a value for [Study Center]: recruitment_type_id")
       end
     end
 

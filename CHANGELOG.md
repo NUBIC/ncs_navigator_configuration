@@ -1,8 +1,10 @@
 NCS Navigator Configuration gem history
 =======================================
 
-0.1.1
+0.2.0
 -----
+
+- New mandatory study center attribute: recruitment_type_id.
 
 0.1.0
 -----
