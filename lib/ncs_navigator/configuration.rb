@@ -342,7 +342,12 @@ module NcsNavigator
         raise Error.new("Could not read sampling units CSV #{sampling_units_file}")
       end
 
-      faster_csv_class.foreach(sampling_units_file, :headers => true, :encoding => 'utf-8') do |row|
+      strip_ws = lambda { |h| h.nil? ? nil : h.strip }
+
+      faster_csv_class.foreach(sampling_units_file,
+        :headers => true, :encoding => 'utf-8',
+        :converters => [strip_ws], :header_converters => [strip_ws]
+      ) do |row|
         psu = (psus[row['PSU_ID']] ||= PrimarySamplingUnit.new(row['PSU_ID']))
         area = (areas[row['AREA']] ||= SamplingUnitArea.new(row['AREA'], psu))
         ssu = (ssus[row['SSU_ID']] ||= SecondarySamplingUnit.new(row['SSU_ID'], row['SSU_NAME'], area))

@@ -272,6 +272,31 @@ module NcsNavigator
           end
         end
       end
+
+      context 'with extra whitespace' do
+        before do
+          input_hash['Study Center']['sampling_units_file'] =
+            File.expand_path('../spaces.csv', __FILE__)
+        end
+
+        subject { from_hash.secondary_sampling_units }
+
+        it 'has the right number' do
+          subject.size.should == 3
+        end
+
+        describe 'an individual SSU' do
+          let(:ssu) { subject.first }
+
+          it 'has the name' do
+            ssu.name.should == 'West Side'
+          end
+
+          it 'has the ID' do
+            ssu.id.should == 'One'
+          end
+        end
+      end
     end
 
     describe 'footer' do

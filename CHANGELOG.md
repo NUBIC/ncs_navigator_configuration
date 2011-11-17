@@ -6,6 +6,8 @@ NCS Navigator Configuration gem history
 
 - New mandatory study center attribute: recruitment_type_id.
 
+- Be more flexible about whitespace when parsing sampling unit CSV.
+
 0.1.0
 -----
 
