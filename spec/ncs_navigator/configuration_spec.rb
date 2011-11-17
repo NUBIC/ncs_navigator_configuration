@@ -22,6 +22,7 @@ describe NcsNavigator do
       File.open('/etc/nubic/ncs/navigator.ini', 'w') do |f|
         f.puts '[Study Center]'
         f.puts 'sc_id = 18'
+        f.puts 'recruitment_type_id = 2'
         f.puts 'sampling_units_file = foo.csv'
         f.puts '[Staff Portal]'
         f.puts 'uri = https://foo.example.com/sp'
@@ -286,14 +287,10 @@ module NcsNavigator
         end
 
         describe 'an individual SSU' do
-          let(:ssu) { subject.first }
+          let(:ssu) { subject.detect { |s| s.id == 'One' } }
 
           it 'has the name' do
             ssu.name.should == 'West Side'
-          end
-
-          it 'has the ID' do
-            ssu.id.should == 'One'
           end
         end
       end
