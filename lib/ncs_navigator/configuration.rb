@@ -173,6 +173,12 @@ module NcsNavigator
       :required => true
 
     ##
+    # A short, human-readable name or abbreviation for the Study
+    # Center.
+    configuration_attribute :study_center_short_name, 'Study Center', 'short_name', String,
+      :default => 'SC'
+
+    ##
     # The name for the institutional identity used in this deployment
     # of NCS Navigator. For instance, for the Greater Chicago Study
     # Center, it is "Northwestern NetID". The default is "Username".

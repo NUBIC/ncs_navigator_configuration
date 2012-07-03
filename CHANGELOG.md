@@ -1,8 +1,10 @@
 NCS Navigator Configuration gem history
 =======================================
 
-0.2.1
+0.3.0
 -----
+
+- New optional study center attribute: short_name.
 
 0.2.0
 -----

@@ -131,6 +131,17 @@ module NcsNavigator
       end
     end
 
+    describe '#study_center_short_name' do
+      it 'defaults to SC' do
+        from_hash.study_center_short_name.should == 'SC'
+      end
+
+      it 'reflects the configured value' do
+        input_hash['Study Center']['short_name'] = 'GCSC'
+        from_hash.study_center_short_name.should == 'GCSC'
+      end
+    end
+
     describe '#study_center_username' do
       it 'reflects the configured value' do
         everything.study_center_username.should == 'NetID'
