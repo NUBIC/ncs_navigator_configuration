@@ -128,6 +128,8 @@ module NcsNavigator
             URI.parse(raw_value.to_s)
           when type == 'Boolean'
             raw_value.to_s.downcase.strip == 'true' ? true : false
+          when type == Array
+            coerce_to_string_array(raw_value)
           else
             fail "Do not know how to coerce to #{type} for #{name} from [#{section}]: #{key}"
           end
@@ -140,6 +142,10 @@ module NcsNavigator
           else
             config.ini_filename.dirname + base
           end
+        end
+
+        def coerce_to_string_array(raw_value)
+          raw_value.split(/\s*,\s*/)
         end
       end
     end
@@ -177,6 +183,12 @@ module NcsNavigator
     # Center.
     configuration_attribute :study_center_short_name, 'Study Center', 'short_name', String,
       :default => 'SC'
+
+    ##
+    # The e-mail addresses which will receive uncaught exceptions from
+    # any application in the suite.
+    configuration_attribute :exception_email_recipients, 'Study Center',
+      'exception_email_recipients', Array, :default => []
 
     ##
     # The name for the institutional identity used in this deployment
