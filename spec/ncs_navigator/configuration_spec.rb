@@ -65,7 +65,7 @@ module NcsNavigator
           'uri' => 'https://sp.example.edu/'
         },
         'Core' => {
-          'uri' => 'https://ncsn.example.edu/'
+          'uri' => 'https://ncsn.example.edu/',
         },
         'PSC' => {
           'uri' => 'https://psc.example.edu/'
@@ -373,6 +373,16 @@ module NcsNavigator
           everything.staff_portal['mail_from'].should == "staffportal@greaterchicagoncs.org"
         end
       end
+
+      describe '#staff_portal_mail_from' do
+        it 'is the configured value' do
+          everything.staff_portal_mail_from.should == 'staffportal@greaterchicagoncs.org'
+        end
+
+        it 'has a reasonable default' do
+          from_hash.staff_portal_mail_from.should == 'ops@navigator.example.edu'
+        end
+      end
     end
 
     describe 'Core parts' do
@@ -391,6 +401,16 @@ module NcsNavigator
       describe '#core' do
         it 'exposes all the raw values in the Staff Portal section' do
           everything.core['uri'].should == "https://ncsnavigator.greaterchicagoncs.org/"
+        end
+      end
+
+      describe '#core_mail_from' do
+        it 'is the configured value' do
+          everything.core_mail_from.should == 'ncs-navigator@greaterchicagoncs.org'
+        end
+
+        it 'has a reasonable default' do
+          from_hash.core_mail_from.should == 'cases@navigator.example.edu'
         end
       end
     end

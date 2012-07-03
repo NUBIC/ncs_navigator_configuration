@@ -218,9 +218,19 @@ module NcsNavigator
     configuration_attribute :staff_portal_uri, 'Staff Portal', 'uri', URI, :required => true
 
     ##
+    # The address from which mail sent by Staff Portal will appear to come.
+    configuration_attribute :staff_portal_mail_from, 'Staff Portal', 'mail_from', String,
+      :default => 'ops@navigator.example.edu'
+
+    ##
     # The root URI for the NCS Navigator Core deployment in this instance of
     # the suite.
     configuration_attribute :core_uri, 'Core', 'uri', URI, :required => true
+
+    ##
+    # The address from which mail sent by Core will appear to come.
+    configuration_attribute :core_mail_from, 'Core', 'mail_from', String,
+      :default => 'cases@navigator.example.edu'
 
     ##
     # The root URI for the PSC deployment in this instance of

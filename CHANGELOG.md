@@ -5,6 +5,7 @@ NCS Navigator Configuration gem history
 -----
 
 - New optional study center attribute: short_name.
+- New optional attribute for Staff Portal and Core: mail_from.
 
 0.2.0
 -----
