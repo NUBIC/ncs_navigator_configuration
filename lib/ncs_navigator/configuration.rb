@@ -345,11 +345,11 @@ module NcsNavigator
     ##
     # @return [Array<SamplingUnitArea>] the areas defined in {#sampling_units_file}.
     def sampling_unit_areas
-      @sampling_unit_areas ||= read_sampling_unit_areas
+      @sampling_unit_areas ||= primary_sampling_units.collect(&:sampling_unit_areas).flatten
     end
     alias :areas :sampling_unit_areas
 
-    def read_sampling_unit_areas
+    def read_primary_sampling_units
       psus = {}
       areas = {}
       ssus = {}
@@ -365,28 +365,32 @@ module NcsNavigator
         :converters => [strip_ws], :header_converters => [strip_ws]
       ) do |row|
         psu = (psus[row['PSU_ID']] ||= PrimarySamplingUnit.new(row['PSU_ID']))
-        area = (areas[row['AREA']] ||= SamplingUnitArea.new(row['AREA'], psu))
-        ssu = (ssus[row['SSU_ID']] ||= SecondarySamplingUnit.new(row['SSU_ID'], row['SSU_NAME'], area))
-        if row['TSU_ID']
-          TertiarySamplingUnit.new(row['TSU_ID'], row['TSU_NAME'], ssu)
+        if row['AREA']
+          area = (areas[row['AREA']] ||= SamplingUnitArea.new(row['AREA'], psu))
+          if row['SSU_ID']
+            area = (areas[row['AREA']] ||= SamplingUnitArea.new(row['AREA'], psu))
+            ssu = (ssus[row['SSU_ID']] ||= SecondarySamplingUnit.new(row['SSU_ID'], row['SSU_NAME'], area))
+            if row['TSU_ID']
+              TertiarySamplingUnit.new(row['TSU_ID'], row['TSU_NAME'], ssu)
+            end
+          end
         end
       end
-
-      areas.values
+      psus.values
     end
-    private :read_sampling_unit_areas
+    private :read_primary_sampling_units
 
     ##
     # @return [Array<PrimarySamplingUnit>] the PSUs defined in {#sampling_units_file}.
     def primary_sampling_units
-      @primary_sampling_units ||= sampling_unit_areas.collect(&:primary_sampling_unit).uniq
+      @primary_sampling_units ||= read_primary_sampling_units
     end
     alias :psus :primary_sampling_units
 
     ##
     # @return [Array<SecondarySamplingUnit>] the SSUs defined in {#sampling_units_file}.
     def secondary_sampling_units
-      @secondary_sampling_units ||= sampling_unit_areas.collect(&:secondary_sampling_units).flatten
+      @secondary_sampling_units ||= primary_sampling_units.collect(&:secondary_sampling_units).flatten
     end
     alias :ssus :secondary_sampling_units
 
