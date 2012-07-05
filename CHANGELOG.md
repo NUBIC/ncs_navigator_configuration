@@ -3,6 +3,7 @@ NCS Navigator Configuration gem history
 
 0.3.1
 -----
+- Make Areas and SSUs optional for the PSU in the sampling unit CSV file.
 
 0.3.0
 -----
