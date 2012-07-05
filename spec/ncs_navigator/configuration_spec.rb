@@ -152,6 +152,19 @@ module NcsNavigator
       end
     end
 
+    describe '#exception_email_recipients' do
+      it 'reflects the configured value' do
+        everything.exception_email_recipients.should == [
+          'Fred MacMurray <fred@pacificlife.net>',
+          'Barbara Stanwyck <b@aol.com>'
+        ]
+      end
+
+      it 'is optional' do
+        from_hash.exception_email_recipients.should be_empty
+      end
+    end
+
     describe '#sampling_units_file' do
       it 'reflects the configured value, absolutized, when read from an INI' do
         everything.sampling_units_file.to_s.should ==
