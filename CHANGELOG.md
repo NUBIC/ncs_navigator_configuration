@@ -3,13 +3,17 @@ NCS Navigator Configuration gem history
 
 0.3.1
 -----
-- Make Areas and SSUs optional for the PSU in the sampling unit CSV file.
+
+- Make Areas and SSUs optional for the PSU in the sampling unit CSV
+  file. (#7)
 
 0.3.0
 -----
 
 - New optional study center attribute: short_name. (#10)
+
 - New optional attribute for Staff Portal and Core: mail_from. (#8)
+
 - New optional study center attribute: `exception_email_recipients`. (#9)
 
 0.2.0
