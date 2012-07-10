@@ -228,7 +228,7 @@ module NcsNavigator
           psu.secondary_sampling_units.collect(&:id).should == %w(One Two Three)
         end
       end
-      
+
       context 'without Areas and SSUs' do
         before do
           input_hash['Study Center']['sampling_units_file'] =
@@ -243,11 +243,11 @@ module NcsNavigator
 
         describe 'an individual PSU' do
           let(:psu) { subject.first }
-          
+
           it 'has no Areas' do
             psu.should have(0).sampling_unit_areas
           end
-          
+
           it 'has no SSUs' do
             psu.should have(0).secondary_sampling_units
           end
