@@ -244,6 +244,10 @@ module NcsNavigator
         describe 'an individual PSU' do
           let(:psu) { subject.first }
 
+          it 'has the correct ID' do
+            psu.id.should == '204'
+          end
+
           it 'has no Areas' do
             psu.should have(0).sampling_unit_areas
           end
