@@ -440,6 +440,12 @@ module NcsNavigator
         end
       end
 
+      describe '#core_machine_account_password' do
+        it 'is the configured value' do
+          everything.core_machine_account_password.should == 'foobar'
+        end
+      end
+
       describe '#core' do
         it 'exposes all the raw values in the Staff Portal section' do
           everything.core['uri'].should == "https://ncsnavigator.greaterchicagoncs.org/"

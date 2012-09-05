@@ -240,6 +240,11 @@ module NcsNavigator
     configuration_attribute :core_uri, 'Core', 'uri', URI, :required => true
 
     ##
+    # Machine account for Cases.
+    configuration_attribute :core_machine_account_password, 'Core',
+      'machine_account_password', String
+
+    ##
     # The address from which mail sent by Core will appear to come.
     configuration_attribute :core_mail_from, 'Core', 'mail_from', String,
       :default => 'cases@navigator.example.edu'
