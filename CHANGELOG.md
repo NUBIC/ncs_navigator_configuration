@@ -4,6 +4,8 @@ NCS Navigator Configuration gem history
 0.3.2
 -----
 
+- New optional Core attribute: machine_account_password.  (#11)
+
 0.3.1
 -----
 
