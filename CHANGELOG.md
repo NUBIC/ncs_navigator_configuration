@@ -1,6 +1,9 @@
 NCS Navigator Configuration gem history
 =======================================
 
+0.3.3
+-----
+
 0.3.2
 -----
 
