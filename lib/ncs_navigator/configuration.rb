@@ -250,6 +250,11 @@ module NcsNavigator
       :default => 'cases@navigator.example.edu'
 
     ##
+    # When a merge conflict occurs in Cases, send emails to these addresses.
+    configuration_attribute :core_conflict_email_recipients, 'Core',
+      'conflict_email_recipients', Array, :default => []
+
+    ##
     # The root URI for the PSC deployment in this instance of
     # the suite.
     configuration_attribute :psc_uri, 'PSC', 'uri', URI, :required => true

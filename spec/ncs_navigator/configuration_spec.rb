@@ -446,6 +446,15 @@ module NcsNavigator
         end
       end
 
+      describe '#core_conflict_email_recipients' do
+        it 'is the configured value' do
+          everything.core_conflict_email_recipients.should == [
+            'Foo Bar <foobar@example.edu>',
+            'Baz Quux <bazquux@example.edu>'
+          ]
+        end
+      end
+
       describe '#core' do
         it 'exposes all the raw values in the Staff Portal section' do
           everything.core['uri'].should == "https://ncsnavigator.greaterchicagoncs.org/"
