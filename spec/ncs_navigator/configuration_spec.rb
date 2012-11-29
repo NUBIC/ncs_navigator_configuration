@@ -440,6 +440,12 @@ module NcsNavigator
         end
       end
 
+      describe '#core_machine_account_username' do
+        it 'is the configured value' do
+          everything.core_machine_account_username.should == 'ncs_navigator_cases_foobar'
+        end
+      end
+
       describe '#core_machine_account_password' do
         it 'is the configured value' do
           everything.core_machine_account_password.should == 'foobar'

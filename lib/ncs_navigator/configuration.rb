@@ -241,6 +241,9 @@ module NcsNavigator
 
     ##
     # Machine account for Cases.
+    configuration_attribute :core_machine_account_username, 'Core',
+      'machine_account_username', String
+
     configuration_attribute :core_machine_account_password, 'Core',
       'machine_account_password', String
 
