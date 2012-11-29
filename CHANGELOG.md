@@ -6,6 +6,8 @@ NCS Navigator Configuration gem history
 
 - New optional Core attribute: conflict_email_recipients.  (#12)
 
+- New optional Core attribute: machine_account_username.  (#14)
+
 0.3.2
 -----
 
