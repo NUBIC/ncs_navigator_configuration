@@ -234,7 +234,7 @@ module NcsNavigator
     ##
     # The root URI for the NCS Navigator Core deployment in this instance of
     # the suite.
-    configuration_attribute :core_uri, 'Core', 'uri', URI, :required => true
+    configuration_attribute :core_uri, 'Core', 'uri', URI
 
     ##
     # Machine account for Cases.

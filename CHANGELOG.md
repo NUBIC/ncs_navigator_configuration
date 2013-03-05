@@ -12,7 +12,10 @@ NCS Navigator Configuration gem history
 
 - Make sampling_units_file optional.  (#17)
 
-- Make recruitement_type_id optional.  (#18)
+- Make recruitment_type_id optional.  (#18)
+
+- Make core uri optional.  (#19)
+
 0.3.2
 -----
 

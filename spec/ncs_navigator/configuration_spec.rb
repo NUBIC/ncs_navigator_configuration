@@ -54,6 +54,7 @@ module NcsNavigator
     let(:everything_file) { File.expand_path('../everything.ini', __FILE__) }
 
     # input_hash should be kept minimally valid
+    # ToDo: update minimally valid input_hash with required fields only.
     let(:input_hash) {
       {
         'Study Center' => {
@@ -63,9 +64,6 @@ module NcsNavigator
         },
         'Staff Portal' => {
           'uri' => 'https://sp.example.edu/'
-        },
-        'Core' => {
-          'uri' => 'https://ncsn.example.edu/',
         },
         'PSC' => {
           'uri' => 'https://psc.example.edu/'
