@@ -166,8 +166,7 @@ module NcsNavigator
     # @macro [attach] configuration_attribute
     #   Read from the `[$2]` section, key `$3`.
     #   @return [$4]
-    configuration_attribute :study_center_id, 'Study Center', 'sc_id', String,
-      :required => true
+    configuration_attribute :study_center_id, 'Study Center', 'sc_id', String
 
     alias :sc_id :study_center_id
 

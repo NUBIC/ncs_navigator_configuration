@@ -8,6 +8,8 @@ NCS Navigator Configuration gem history
 
 - New optional Core attribute: machine_account_username.  (#14)
 
+- Make sc_id optional.  (#16)
+
 0.3.2
 -----
 
