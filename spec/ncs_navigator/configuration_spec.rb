@@ -179,10 +179,10 @@ module NcsNavigator
         everything.sampling_units_file.should be_a(Pathname)
       end
 
-      it 'is required' do
+      it 'is not required' do
         input_hash['Study Center'].delete 'sampling_units_file'
         lambda { from_hash }.
-          should raise_error "Please set a value for [Study Center]: sampling_units_file"
+          should_not raise_error
       end
     end
 

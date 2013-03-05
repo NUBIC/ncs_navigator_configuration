@@ -202,8 +202,7 @@ module NcsNavigator
     #
     # The format is described in the comments in the
     # {file:sample_configuration.ini sample INI}.
-    configuration_attribute :sampling_units_file, 'Study Center', 'sampling_units_file', Pathname,
-      :required => true
+    configuration_attribute :sampling_units_file, 'Study Center', 'sampling_units_file', Pathname
 
     ##
     # The image that should appear on the left side of the footer in

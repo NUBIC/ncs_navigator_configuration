@@ -10,6 +10,8 @@ NCS Navigator Configuration gem history
 
 - Make sc_id optional.  (#16)
 
+- Make sampling_units_file optional.  (#17)
+
 0.3.2
 -----
 
