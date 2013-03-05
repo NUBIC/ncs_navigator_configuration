@@ -124,10 +124,10 @@ module NcsNavigator
         from_hash.recruitment_type_id.should == '234'
       end
 
-      it 'is mandatory' do
+      it 'is not mandatory' do
         input_hash['Study Center'].delete 'recruitment_type_id'
         lambda { from_hash }.
-          should raise_error("Please set a value for [Study Center]: recruitment_type_id")
+          should_not raise_error
       end
     end
 

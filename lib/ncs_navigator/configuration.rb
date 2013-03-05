@@ -174,8 +174,7 @@ module NcsNavigator
     # The recruitment strategy for this study center. The acceptable
     # values are those from the code list `recruit_type_cl1` in the
     # MDES.
-    configuration_attribute :recruitment_type_id, 'Study Center', 'recruitment_type_id', String,
-      :required => true
+    configuration_attribute :recruitment_type_id, 'Study Center', 'recruitment_type_id', String
 
     ##
     # A short, human-readable name or abbreviation for the Study
