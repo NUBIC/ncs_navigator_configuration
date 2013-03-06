@@ -1,7 +1,7 @@
 NCS Navigator Configuration gem history
 =======================================
 
-0.3.3
+0.4.0
 -----
 
 - New optional Core attribute: conflict_email_recipients.  (#12)
