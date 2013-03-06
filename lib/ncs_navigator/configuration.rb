@@ -376,12 +376,13 @@ module NcsNavigator
       areas = {}
       ssus = {}
 
-      unless sampling_units_file.readable?
+      if sampling_units_file && !sampling_units_file.readable?
         raise Error.new("Could not read sampling units CSV #{sampling_units_file}")
       end
 
       strip_ws = lambda { |h| h.nil? ? nil : h.strip }
 
+      return [] unless sampling_units_file
       faster_csv_class.foreach(sampling_units_file,
         :headers => true, :encoding => 'utf-8',
         :converters => [strip_ws], :header_converters => [strip_ws]
