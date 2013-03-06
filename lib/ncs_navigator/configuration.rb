@@ -166,8 +166,7 @@ module NcsNavigator
     # @macro [attach] configuration_attribute
     #   Read from the `[$2]` section, key `$3`.
     #   @return [$4]
-    configuration_attribute :study_center_id, 'Study Center', 'sc_id', String,
-      :required => true
+    configuration_attribute :study_center_id, 'Study Center', 'sc_id', String
 
     alias :sc_id :study_center_id
 
@@ -175,8 +174,7 @@ module NcsNavigator
     # The recruitment strategy for this study center. The acceptable
     # values are those from the code list `recruit_type_cl1` in the
     # MDES.
-    configuration_attribute :recruitment_type_id, 'Study Center', 'recruitment_type_id', String,
-      :required => true
+    configuration_attribute :recruitment_type_id, 'Study Center', 'recruitment_type_id', String
 
     ##
     # A short, human-readable name or abbreviation for the Study
@@ -203,8 +201,7 @@ module NcsNavigator
     #
     # The format is described in the comments in the
     # {file:sample_configuration.ini sample INI}.
-    configuration_attribute :sampling_units_file, 'Study Center', 'sampling_units_file', Pathname,
-      :required => true
+    configuration_attribute :sampling_units_file, 'Study Center', 'sampling_units_file', Pathname
 
     ##
     # The image that should appear on the left side of the footer in
@@ -237,7 +234,7 @@ module NcsNavigator
     ##
     # The root URI for the NCS Navigator Core deployment in this instance of
     # the suite.
-    configuration_attribute :core_uri, 'Core', 'uri', URI, :required => true
+    configuration_attribute :core_uri, 'Core', 'uri', URI
 
     ##
     # Machine account for Cases.
@@ -379,12 +376,13 @@ module NcsNavigator
       areas = {}
       ssus = {}
 
-      unless sampling_units_file.readable?
+      if sampling_units_file && !sampling_units_file.readable?
         raise Error.new("Could not read sampling units CSV #{sampling_units_file}")
       end
 
       strip_ws = lambda { |h| h.nil? ? nil : h.strip }
 
+      return [] unless sampling_units_file
       faster_csv_class.foreach(sampling_units_file,
         :headers => true, :encoding => 'utf-8',
         :converters => [strip_ws], :header_converters => [strip_ws]
