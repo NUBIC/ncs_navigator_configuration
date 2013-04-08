@@ -4,6 +4,8 @@ NCS Navigator Configuration gem history
 0.4.1
 -----
 
+- New attribute for Pancakes: mdes_version.
+
 0.4.0
 -----
 

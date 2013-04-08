@@ -46,7 +46,7 @@ module NcsNavigator
 
     ######
 
-    APPLICATION_SECTIONS = ['Staff Portal', 'Core', 'PSC']
+    APPLICATION_SECTIONS = ['Staff Portal', 'Core', 'PSC', 'Pancakes']
 
     class << self
       ##
@@ -232,6 +232,10 @@ module NcsNavigator
       :default => 'ops@navigator.example.edu'
 
     ##
+    # The MDES version for Pancakes.
+    configuration_attribute :pancakes_mdes_version, 'Pancakes', 'mdes_version', String
+
+    ##
     # The root URI for the NCS Navigator Core deployment in this instance of
     # the suite.
     configuration_attribute :core_uri, 'Core', 'uri', URI
@@ -307,6 +311,7 @@ module NcsNavigator
     section_accessor 'Staff Portal', :staff_portal
     section_accessor 'Core', :core
     section_accessor 'PSC', :psc
+    section_accessor 'Pancakes', :pancakes
 
     ##
     # Creates a new Configuration.

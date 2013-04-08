@@ -107,6 +107,19 @@ module NcsNavigator
       end
     end
 
+    describe '#pancakes_mdes_version' do
+      it 'is not mandatory' do
+        lambda { from_minimum_valid_hash }.
+          should_not raise_error
+      end
+
+      it "returns Pancakes' MDES version" do
+        input_hash['Pancakes'] = { 'mdes_version' => '3.2' }
+
+        from_hash.pancakes_mdes_version.should == '3.2'
+      end
+    end
+
     describe '#study_center_id' do
       it 'reflects the configured value' do
         from_hash.study_center_id.should == '23000000'
